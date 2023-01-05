@@ -1,15 +1,33 @@
-
-#docker compose PostgreSQL
+#---- H2 Database ----
 spring:
   datasource:
-    url: jdbc:postgresql://172.18.0.3:5432/credit_request_system_db?useTimezone=true&serverTimezone=UTC&useLegacyDate
-    username: cami
-    password: password
+    url: jdbc:h2:mem:credit_request_system_db
+    username: sa
+    password:
   jpa:
     show-sql: true
     hibernate:
       properties:
         hibernate.format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+
+#docker compose PostgreSQL
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://172.18.0.3:5432/credit_request_system_db?useTimezone=true&serverTimezone=UTC&useLegacyDate
+#    username: cami
+#    password: password
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      properties:
+#        hibernate.format_sql: true
 
 #---- Local PostgreSQL ----
 #spring:
@@ -23,21 +41,3 @@ spring:
 #      properties:
 #        hibernate.format_sql: true
 
-#---- H2 Database ----
-#spring:
-#  datasource:
-#    url: jdbc:h2:mem:credit_request_system_db
-#    username: sa
-#    password:
-#  jpa:
-#    show-sql: true
-#    hibernate:
-#      properties:
-#        hibernate.format_sql: true
-# h2:
-#    console:
-#      enabled: true
-#      path: /h2-console
-#      settings:
-#        trace: false
-#        web-allow-others: false

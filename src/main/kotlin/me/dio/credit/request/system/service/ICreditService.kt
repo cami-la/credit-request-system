@@ -1,10 +1,11 @@
 package me.dio.credit.request.system.service
 
-import me.dio.credit.request.system.model.Credit
+import me.dio.credit.request.system.dto.request.CreditForm
+import me.dio.credit.request.system.dto.response.CreditListView
+import me.dio.credit.request.system.dto.response.CreditView
 
 interface ICreditService {
-  fun save() : Unit
-  fun findById() : Credit
-  fun findAllByCustomer() : List<Credit>
-  fun findAll() : List<Credit>
+  fun save(creditForm: CreditForm) : Unit
+  fun findAllByCustomer(idCustomer: Long) : List<CreditListView>
+  fun creditView(idCredit: Long) : CreditView
 }
