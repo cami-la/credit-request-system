@@ -8,7 +8,6 @@ import me.dio.credit.request.system.repository.CreditRepository
 import me.dio.credit.request.system.service.ICreditService
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.time.Period
 import java.util.stream.Collectors
 
 @Service
@@ -17,11 +16,20 @@ class CreditService(
   private val customerService: CustomerService
 ) : ICreditService {
   override fun save(creditForm: CreditForm) {
-    val customer = customerService.findById(creditForm.customerId)
-    val creditToSave = this.creditRepository.save(
-      creditForm.toEntity(customer)
-    )
-    this.creditRepository.save(creditToSave)
+    if(this.validDateFirstInstallment(creditForm.dayFirstInstallment)) {
+      val customer = customerService.findById(creditForm.customerId)
+      val creditToSave = this.creditRepository.save(
+        creditForm.toEntity(customer)
+      )
+      this.creditRepository.save(creditToSave)
+    } else {
+      throw RuntimeException("Date Invalid!")
+    }
+  }
+
+  private fun validDateFirstInstallment(dateFirstInstallment: LocalDate): Boolean {
+    val deadline: LocalDate = LocalDate.now().plusMonths(3)
+    return dateFirstInstallment <= deadline
   }
 
   override fun findAllByCustomer(idCustomer: Long): List<CreditListView> {
